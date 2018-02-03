@@ -1,5 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import Home from './components/routes/Home';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+// Add Provider, Router later
+const App = (
+  <Home />
+);
+
+ReactDOM.render(App, document.getElementById('root'));
