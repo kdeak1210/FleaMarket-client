@@ -6,13 +6,15 @@ module.exports = {
         "import"
     ],
     rules: {
-        'react/jsx-filename-extension': 0,
-        'react/prop-types': 0,
+        "react/jsx-filename-extension": 0,
+        "react/prop-types": 0,
+        "jsx-a11y/anchor-is-valid": 0,
+        "jsx-a11y/href-no-hash": 0
     },
-    "globals": {
+    globals: {
         "document": 1
     },
-    parser: 'babel-eslint',
+    parser: "babel-eslint",
     env: {
         browser: 1,
     },
