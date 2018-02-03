@@ -11,62 +11,7 @@ class App extends Component {
         <div className="sidebar" data-background-color="white" data-active-color="danger">
 
           <div className="sidebar-wrapper">
-            <div className="logo">
-              <a href="http://www.creative-tim.com" className="simple-text">
-                Creative Tim
-              </a>
-            </div>
-
-            <ul className="nav">
-              <li className="active">
-                <a href="dashboard.html">
-                  <i className="ti-panel" />
-                  <p>Dashboard</p>
-                </a>
-              </li>
-              <li>
-                <a href="user.html">
-                  <i className="ti-user" />
-                  <p>User Profile</p>
-                </a>
-              </li>
-              <li>
-                <a href="table.html">
-                  <i className="ti-view-list-alt" />
-                  <p>Table List</p>
-                </a>
-              </li>
-              <li>
-                <a href="typography.html">
-                  <i className="ti-text" />
-                  <p>Typography</p>
-                </a>
-              </li>
-              <li>
-                <a href="icons.html">
-                  <i className="ti-pencil-alt2" />
-                  <p>Icons</p>
-                </a>
-              </li>
-              <li>
-                <a href="maps.html">
-                  <i className="ti-map" />
-                  <p>Maps</p>
-                </a>
-              </li>
-              <li>
-                <a href="notifications.html">
-                  <i className="ti-bell" />
-                  <p>Notifications</p>
-                </a>
-              </li>
-              <li className="active-pro">
-                <a href="upgrade.html">
-                  <i className="ti-export" />
-                  <p>Upgrade to PRO</p>
-                </a>
-              </li>
-            </ul>
+            MAP GOES HERE
           </div>
         </div>
 
@@ -222,87 +167,13 @@ class App extends Component {
                   </div>
                 </div>
               </div>
-              <div className="row">
-
-                <div className="col-md-12">
-                  <div className="card">
-                    <div className="header">
-                      <h4 className="title">Users Behavior</h4>
-                      <p className="category">24 Hours performance</p>
-                    </div>
-                    <div className="content">
-                      <div id="chartHours" className="ct-chart" />
-                      <div className="footer">
-                        <div className="chart-legend">
-                          <i className="fa fa-circle text-info" /> Open
-                          <i className="fa fa-circle text-danger" /> Click
-                          <i className="fa fa-circle text-warning" /> Click Second Time
-                        </div>
-                        <hr />
-                        <div className="stats">
-                          <i className="ti-reload" /> Updated 3 minutes ago
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="card">
-                    <div className="header">
-                      <h4 className="title">Email Statistics</h4>
-                      <p className="category">Last Campaign Performance</p>
-                    </div>
-                    <div className="content">
-                      <div id="chartPreferences" className="ct-chart ct-perfect-fourth" />
-
-                      <div className="footer">
-                        <div className="chart-legend">
-                          <i className="fa fa-circle text-info" /> Open
-                          <i className="fa fa-circle text-danger" /> Bounce
-                          <i className="fa fa-circle text-warning" /> Unsubscribe
-                        </div>
-                        <hr />
-                        <div className="stats">
-                          <i className="ti-timer" /> Campaign sent 2 days ago
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="card ">
-                    <div className="header">
-                      <h4 className="title">2015 Sales</h4>
-                      <p className="category">All products including Taxes</p>
-                    </div>
-                    <div className="content">
-                      <div id="chartActivity" className="ct-chart" />
-
-                      <div className="footer">
-                        <div className="chart-legend">
-                          <i className="fa fa-circle text-info" /> Tesla Model S
-                          <i className="fa fa-circle text-warning" /> BMW 5 Series
-                        </div>
-                        <hr />
-                        <div className="stats">
-                          <i className="ti-check" /> Data information certified
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
-
 
           <footer className="footer">
             <div className="container-fluid">
               <nav className="pull-left">
                 <ul>
-
                   <li>
                     <a href="http://www.creative-tim.com">
                             Creative Tim
