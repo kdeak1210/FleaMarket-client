@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { Item } from '../presentation';
+import actions from '../../actions';
 
 class SearchResults extends Component {
   state = {
@@ -8,18 +10,11 @@ class SearchResults extends Component {
   }
 
   render() {
-    const items = [
-      {
-        id: 1, key: 1, defaultAnimation: 2, label: 'Television', price: 100, position: { lat: 38.903, lng: -77.043 },
-      },
-      {
-        id: 2, key: 2, defaultAnimation: 2, label: 'Couch', price: 250, position: { lat: 38.897, lng: -77.042 },
-      },
-    ];
+    const { all } = this.props.item || [];
 
     return (
       <div className="row">
-        { items.map((item, i) => (
+        { all.map((item, i) => (
           <Item key={item.id} item={item} />
         ))}
       </div>
@@ -27,4 +22,8 @@ class SearchResults extends Component {
   }
 }
 
-export default SearchResults;
+const stateToProps = state => ({
+  item: state.item,
+});
+
+export default connect(stateToProps)(SearchResults);
