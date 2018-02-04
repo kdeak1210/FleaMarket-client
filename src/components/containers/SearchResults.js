@@ -21,8 +21,6 @@ class SearchResults extends Component {
 
     const newItem = { ...this.state.item };
     newItem.id = this.props.item.all.length + 1;
-    newItem.key = this.props.item.all.length + 1;
-    newItem.defaultAnimation = 2;
     newItem.position = this.props.map.currentLocation;
     this.props.addItem(newItem);
   }
@@ -48,7 +46,7 @@ class SearchResults extends Component {
                   <h3>Add Item</h3>
                   <input
                     type="text"
-                    name="label"
+                    name="name"
                     className="form-control"
                     style={localStyle.inputField}
                     placeholder="Item Name"

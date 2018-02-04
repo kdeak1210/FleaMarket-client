@@ -6,12 +6,24 @@ import actions from '../../actions';
 
 class MapNavigation extends Component {
   centerChanged = (newCenter) => {
-    console.log(`Center changed: ${JSON.stringify(newCenter)}`);
+    // console.log(`Center changed: ${JSON.stringify(newCenter)}`);
     this.props.locationChanged(newCenter);
   }
 
   render() {
     const items = this.props.item.all || [];
+    const markers = [];
+
+    items.forEach((item) => {
+      const marker = {
+        key: item.id,
+        label: item.name,
+        position: item.position,
+        defaultAnimation: 2,
+      };
+
+      markers.push(marker);
+    });
 
     return (
       <div>
@@ -25,7 +37,7 @@ class MapNavigation extends Component {
           mapElement={
             <div style={{ height: '100%' }} />
           }
-          markers={items}
+          markers={markers}
         />
       </div>
     );

@@ -2,7 +2,7 @@ import React from 'react';
 
 const Item = ({
   item: {
-    id, key, label, price,
+    id, key, name, price, image, seller,
   },
 }) => (
   // id: 1, key: 1, defaultAnimation: 2, label: 'Television', position: { lat: 38.903, lng: -77.043 },
@@ -10,27 +10,49 @@ const Item = ({
     <div className="card">
       <div className="content">
         <div className="row">
-          <div className="col-xs-5">
-            <div className="icon-big icon-warning text-center">
-              <i className="ti-server" />
-            </div>
-          </div>
-          <div className="col-xs-7">
+          <div className="col-xs-12">
             <div className="numbers">
-              <p>{label}</p>
+              <p>{name}</p>
               ${price}
             </div>
           </div>
+          <div className="col-xs-12">
+            <img
+              style={localStyle.itemImage}
+              src={image}
+              alt="item"
+            />
+          </div>
         </div>
+
         <div className="footer">
           <hr />
+          <img
+            src={seller.image}
+            style={localStyle.avatar}
+            alt="seller"
+          />
           <div className="stats">
-            <i className="ti-reload" /> Updated now
+            {seller.username}
           </div>
         </div>
       </div>
     </div>
   </div>
 );
+
+const localStyle = {
+  avatar: {
+    width: 32,
+    borderRadius: 16,
+    float: 'right',
+  },
+  itemImage: {
+    width: '100%',
+    padding: 4,
+    border: '1px solid #ddd',
+    background: '#f9f9f9',
+  },
+};
 
 export default Item;
