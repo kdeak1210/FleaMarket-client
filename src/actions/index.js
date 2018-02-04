@@ -7,5 +7,10 @@ export default {
     payload: item,
   }),
 
+  locationChanged: location => ({
+    type: constants.LOCATION_CHANGED,
+    payload: location,
+  }),
+
 };
 

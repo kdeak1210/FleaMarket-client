@@ -2,20 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Map } from '../presentation';
+import actions from '../../actions';
 
 class MapNavigation extends Component {
-  constructor() {
-    super();
-    this.setNewLocation = this.setNewLocation.bind(this);
-  }
-
-  setNewLocation(location) {
-    // console.log('setNewLocation: ' + JSON.stringify(location))
-    this.props.updateCurrentLocation(location);
-  }
-
   centerChanged = (newCenter) => {
     console.log(`Center changed: ${JSON.stringify(newCenter)}`);
+    this.props.locationChanged(newCenter);
   }
 
   render() {
@@ -24,7 +16,7 @@ class MapNavigation extends Component {
     return (
       <div>
         <Map
-          center={{ lat: 38.90, lng: -77.04 }}
+          center={this.props.map.currentLocation}
           zoom={14}
           mapMoved={this.centerChanged}
           containerElement={
@@ -42,6 +34,11 @@ class MapNavigation extends Component {
 
 const stateToProps = state => ({
   item: state.item,
+  map: state.map,
 });
 
-export default connect(stateToProps)(MapNavigation);
+const dispatchToProps = dispatch => ({
+  locationChanged: location => dispatch(actions.locationChanged(location)),
+});
+
+export default connect(stateToProps, dispatchToProps)(MapNavigation);

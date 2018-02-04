@@ -6,9 +6,7 @@ import actions from '../../actions';
 
 class SearchResults extends Component {
   state = {
-    item: {
-      position: { lat: 38.894, lng: -77.038 },
-    },
+    item: { },
   }
 
   updateItem = (e) => {
@@ -18,10 +16,14 @@ class SearchResults extends Component {
   }
 
   submitItem = () => {
-    console.log(`Item: ${JSON.stringify(this.state.item)}`);
+    // console.log(`Item: ${JSON.stringify(this.state.item)}`);
+    // console.log(`Location: ${JSON.stringify(this.props.map.currentLocation)}`);
+
     const newItem = { ...this.state.item };
     newItem.id = this.props.item.all.length + 1;
     newItem.key = this.props.item.all.length + 1;
+    newItem.defaultAnimation = 2;
+    newItem.position = this.props.map.currentLocation;
     this.props.addItem(newItem);
   }
 
@@ -75,7 +77,6 @@ class SearchResults extends Component {
           </div>
         </div>
       </div>
-
     );
   }
 }
@@ -89,6 +90,7 @@ const localStyle = {
 
 const stateToProps = state => ({
   item: state.item,
+  map: state.map,
 });
 
 const dispatchToProps = dispatch => ({
