@@ -11,7 +11,7 @@ class Map extends Component {
     this.mapDragged = this.mapDragged.bind(this);
   }
 
-  mapDragged() {
+  mapDragged = () => {
     const latLng = this.state.map.getCenter().toJSON();
     // console.log('map dragged: ' + JSON.stringify(latLng))
     this.props.mapMoved(latLng);
@@ -30,7 +30,7 @@ class Map extends Component {
         }
         defaultZoom={this.props.zoom}
         defaultCenter={this.props.center}
-        onDragEnd={console.log('onDragEnd')}
+        onDragEnd={this.mapDragged}
       >
         {markers.map((marker, index) => (
           <Marker {...marker} />

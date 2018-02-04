@@ -14,6 +14,10 @@ class MapNavigation extends Component {
     this.props.updateCurrentLocation(location);
   }
 
+  centerChanged = (newCenter) => {
+    console.log(`Center changed: ${JSON.stringify(newCenter)}`);
+  }
+
   render() {
     const items = this.props.item.all || [];
 
@@ -22,7 +26,7 @@ class MapNavigation extends Component {
         <Map
           center={{ lat: 38.90, lng: -77.04 }}
           zoom={14}
-          mapMoved={console.log('Map moved')}
+          mapMoved={this.centerChanged}
           containerElement={
             <div style={{ height: '100vh' }} />
           }
