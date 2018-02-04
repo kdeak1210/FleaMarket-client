@@ -1,6 +1,11 @@
 import React from 'react';
 
-const Item = () => (
+const Item = ({
+  item: {
+    id, key, label, price,
+  },
+}) => (
+  // id: 1, key: 1, defaultAnimation: 2, label: 'Television', position: { lat: 38.903, lng: -77.043 },
   <div className="col-lg-3 col-sm-6">
     <div className="card">
       <div className="content">
@@ -12,8 +17,8 @@ const Item = () => (
           </div>
           <div className="col-xs-7">
             <div className="numbers">
-              <p>Capacity</p>
-                        105GB
+              <p>{label}</p>
+              ${price}
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import { Footer, Item, Nav } from '../presentation';
-import MapNavigation from '../containers/MapNavigation';
+import { Footer, Nav } from '../presentation';
+import { MapNavigation, SearchResults } from '../containers';
 
 class Home extends Component {
   render() {
@@ -21,14 +21,9 @@ class Home extends Component {
 
           <div className="content">
             <div className="container-fluid">
-              <div className="row">
 
-                <Item />
-                <Item />
-                <Item />
-                <Item />
+              <SearchResults />
 
-              </div>
             </div>
           </div>
 
