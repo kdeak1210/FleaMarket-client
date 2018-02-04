@@ -20,11 +20,9 @@ class Home extends Component {
           <Nav />
 
           <div className="content">
-            <div className="container-fluid">
 
-              <SearchResults />
+            <SearchResults />
 
-            </div>
           </div>
 
           <Footer />

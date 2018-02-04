@@ -8,6 +8,9 @@ const initialState = {
     {
       id: 2, key: 2, defaultAnimation: 2, label: 'Couch', price: 250, position: { lat: 38.897, lng: -77.042 },
     },
+    {
+      id: 3, key: 3, defaultAnimation: 2, label: 'Playstation', price: 125, position: { lat: 38.897, lng: -77.035 },
+    },
   ],
 };
 

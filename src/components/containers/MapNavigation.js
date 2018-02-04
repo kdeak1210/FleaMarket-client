@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import { Map } from '../presentation';
 
 class MapNavigation extends Component {
@@ -13,14 +15,7 @@ class MapNavigation extends Component {
   }
 
   render() {
-    const markers = [
-      {
-        id: 1, key: 1, defaultAnimation: 2, label: 'Television', position: { lat: 38.903, lng: -77.043 },
-      },
-      {
-        id: 2, key: 2, defaultAnimation: 2, label: 'Couch', position: { lat: 38.897, lng: -77.042 },
-      },
-    ];
+    const items = this.props.item.all || [];
 
     return (
       <div>
@@ -34,11 +29,15 @@ class MapNavigation extends Component {
           mapElement={
             <div style={{ height: '100%' }} />
           }
-          markers={markers}
+          markers={items}
         />
       </div>
     );
   }
 }
 
-export default MapNavigation;
+const stateToProps = state => ({
+  item: state.item,
+});
+
+export default connect(stateToProps)(MapNavigation);

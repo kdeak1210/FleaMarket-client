@@ -6,21 +6,83 @@ import actions from '../../actions';
 
 class SearchResults extends Component {
   state = {
+    item: {
+      name: '',
+      price: '',
+    },
+  }
 
+  updateItem = (e) => {
+    const updatedItem = { ...this.state.item };
+    updatedItem[e.target.name] = e.target.value;
+    this.setState({ item: updatedItem });
+  }
+
+  submitItem = () => {
+    console.log(`Item: ${JSON.stringify(this.state.item)}`);
   }
 
   render() {
     const { all } = this.props.item || [];
 
     return (
-      <div className="row">
-        { all.map((item, i) => (
-          <Item key={item.id} item={item} />
-        ))}
+      <div className="container-fluid">
+
+        <div className="row">
+          { all.map((item, i) => (
+            <Item key={item.id} item={item} />
+          ))}
+        </div>
+
+        <div className="row">
+          <div className="col-md-4">
+
+            <div className="card">
+              <div className="content">
+                <div className="footer">
+                  <h3>Add Item</h3>
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-control"
+                    style={localStyle.inputField}
+                    placeholder="Item Name"
+                    onChange={this.updateItem}
+                  />
+                  <input
+                    type="text"
+                    name="price"
+                    className="form-control"
+                    style={localStyle.inputField}
+                    placeholder="Price"
+                    onChange={this.updateItem}
+                  />
+                  <hr />
+                  <div className="stats">
+                    <button
+                      className="btn btn-success"
+                      onClick={this.submitItem}
+                    >Add Item
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
+
     );
   }
 }
+
+const localStyle = {
+  inputField: {
+    marginBottom: 12,
+    border: '1px solid #ddd',
+  },
+};
 
 const stateToProps = state => ({
   item: state.item,
