@@ -2,9 +2,9 @@ import constants from '../constants';
 
 export default {
 
-  fetchComments: () => ({
-    type: constants.ITEMS_RECEIVED,
-    payload: ['item1', 'item2'],
+  addItem: item => ({
+    type: constants.ITEM_ADDED,
+    payload: item,
   }),
 
 };

@@ -7,8 +7,7 @@ import actions from '../../actions';
 class SearchResults extends Component {
   state = {
     item: {
-      name: '',
-      price: '',
+      position: { lat: 38.894, lng: -77.038 },
     },
   }
 
@@ -20,6 +19,10 @@ class SearchResults extends Component {
 
   submitItem = () => {
     console.log(`Item: ${JSON.stringify(this.state.item)}`);
+    const newItem = { ...this.state.item };
+    newItem.id = this.props.item.all.length + 1;
+    newItem.key = this.props.item.all.length + 1;
+    this.props.addItem(newItem);
   }
 
   render() {
@@ -43,7 +46,7 @@ class SearchResults extends Component {
                   <h3>Add Item</h3>
                   <input
                     type="text"
-                    name="name"
+                    name="label"
                     className="form-control"
                     style={localStyle.inputField}
                     placeholder="Item Name"
@@ -88,4 +91,8 @@ const stateToProps = state => ({
   item: state.item,
 });
 
-export default connect(stateToProps)(SearchResults);
+const dispatchToProps = dispatch => ({
+  addItem: item => dispatch(actions.addItem(item)),
+});
+
+export default connect(stateToProps, dispatchToProps)(SearchResults);
