@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 import actions from '../../actions'
 
@@ -34,6 +35,7 @@ class Login extends Component {
         if (token) {
           localStorage.setItem('jwtToken', token);
         }
+        this.props.history.push('/');
       })
       .catch(err => console.log(err))
     } else {
@@ -44,6 +46,7 @@ class Login extends Component {
         if (token) {
           localStorage.setItem('jwtToken', token);
         }
+        this.props.history.push('/');        
       })
       .catch(err => console.log(err))
     }
@@ -122,5 +125,5 @@ const dispatchToProps = dispatch => ({
   register: params => dispatch(actions.register(params))
 })
 
-export default connect(null, dispatchToProps)(Login);
+export default withRouter(connect(null, dispatchToProps)(Login));
 
