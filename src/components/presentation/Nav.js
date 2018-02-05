@@ -37,10 +37,8 @@ const Nav = ({ user }) => (
             </ul>
           </li>
           <li>
-
-            <i className="ti-settings" />
             { user
-              ? <p>Welcome {user.username}</p>
+              ? <a><p>Welcome {user.username}</p></a>
               : <Link to="/auth">Login</Link>
             }
           </li>

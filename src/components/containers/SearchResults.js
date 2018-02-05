@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
+import { APIManager } from '../../utils';
 import { Item } from '../presentation';
 import actions from '../../actions';
 
@@ -18,11 +21,38 @@ class SearchResults extends Component {
   submitItem = () => {
     // console.log(`Item: ${JSON.stringify(this.state.item)}`);
     // console.log(`Location: ${JSON.stringify(this.props.map.currentLocation)}`);
-
     const newItem = { ...this.state.item };
     newItem.id = this.props.item.all.length + 1;
     newItem.position = this.props.map.currentLocation;
     this.props.addItem(newItem);
+  }
+
+  uploadImage = (files) => {
+    const file = files[0];
+
+    // Request an Amazon S3 signed url from the server
+    APIManager.get('/upload/s3sign', {
+      filename: file.name,
+      filetype: file.type,
+    })
+      .then((response) => {
+        console.log(response);
+        const signedUrl = response.result;
+
+        const options = {
+          headers: {
+            'Content-Type': file.type,
+          },
+        };
+
+        return axios.put(signedUrl, file, options);
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -38,7 +68,7 @@ class SearchResults extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-lg-3 col-sm-6">
 
             <div className="card">
               <div className="content">
@@ -62,6 +92,13 @@ class SearchResults extends Component {
                   />
                   <hr />
                   <div className="stats">
+                    <Dropzone
+                      onDrop={this.uploadImage}
+                      multiple={false}
+                      style={{ marginRight: 16 }}
+                      className="btn btn-info btn-fill"
+                    >Upload Image
+                    </Dropzone>
                     <button
                       className="btn btn-success"
                       onClick={this.submitItem}
