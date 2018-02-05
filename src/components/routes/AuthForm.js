@@ -1,6 +1,8 @@
 /* eslint-disable */
-
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
+import actions from '../../actions'
 
 class Login extends Component {
   state = {
@@ -10,10 +12,6 @@ class Login extends Component {
       email: '',
       password: '',
     }
-  }
-
-  componentDidMount() {
-    // console.log(this.props);
   }
 
   toggleForm = () => {
@@ -31,10 +29,18 @@ class Login extends Component {
     console.log(this.state);
     if (this.state.renderLogin) {
       console.log('Submit Login');
+      
       // LOGIN ACITON
+      this.props.login(this.state.credentials)
+      .then((response) => console.log(response))
+      .catch(err => console.log(err))
     } else {
       console.log('Submit Register');
+
       // REGISTER ACTION
+      this.props.register(this.state.credentials)
+      .then((response) => console.log(response))
+      .catch(err => console.log(err))
     }
   }
 
@@ -50,7 +56,9 @@ class Login extends Component {
             <div className="content">
               <h3>{selectedForm} Form</h3>
               <div className="footer">
-                <input
+                
+                { renderLogin ? null : (
+                  <input
                   type="text"
                   name="username"
                   className="form-control"
@@ -58,8 +66,8 @@ class Login extends Component {
                   placeholder="username"
                   onChange={this.updateCredentials}
                 />
-                { renderLogin ? null : (
-                  <input
+                )}
+                <input
                     type="text"
                     name="email"
                     className="form-control"
@@ -67,9 +75,8 @@ class Login extends Component {
                     placeholder="email"
                     onChange={this.updateCredentials}
                   />
-                )}
                 <input
-                  type="text"
+                  type="password"
                   name="password"
                   className="form-control"
                   style={localStyle.inputField}
@@ -105,5 +112,10 @@ const localStyle = {
   },
 };
 
-export default Login;
+const dispatchToProps = dispatch => ({
+  login: params => dispatch(actions.login(params)),
+  register: params => dispatch(actions.register(params))
+})
+
+export default connect(null, dispatchToProps)(Login);
 

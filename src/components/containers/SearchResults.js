@@ -9,6 +9,11 @@ class SearchResults extends Component {
     item: { },
   }
 
+  componentDidMount() {
+    this.props.checkCurrentUser()
+      .catch(err => console.log(err));
+  }
+
   updateItem = (e) => {
     const updatedItem = { ...this.state.item };
     updatedItem[e.target.name] = e.target.value;
@@ -93,6 +98,7 @@ const stateToProps = state => ({
 
 const dispatchToProps = dispatch => ({
   addItem: item => dispatch(actions.addItem(item)),
+  checkCurrentUser: () => dispatch(actions.checkCurrentUser()),
 });
 
 export default connect(stateToProps, dispatchToProps)(SearchResults);

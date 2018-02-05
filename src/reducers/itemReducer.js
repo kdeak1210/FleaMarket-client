@@ -15,8 +15,6 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  const updated = { ...state };
-
   switch (action.type) {
     case constants.ITEM_ADDED:
       console.log(`ITEM_ADDED: ${JSON.stringify(action.payload)}`);
@@ -26,6 +24,6 @@ export default (state = initialState, action) => {
     //   console.log('Items Received');
     //   return updated;
     default:
-      return updated;
+      return state;
   }
 };
