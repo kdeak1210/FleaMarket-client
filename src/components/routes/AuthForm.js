@@ -26,20 +26,25 @@ class Login extends Component {
   }
 
   submitForm = () => {
-    console.log(this.state);
     if (this.state.renderLogin) {
-      console.log('Submit Login');
-      
-      // LOGIN ACITON
       this.props.login(this.state.credentials)
-      .then((response) => console.log(response))
+      .then((response) => {
+        // Successful login, set the token, redirect them
+        const { token } = response;
+        if (token) {
+          localStorage.setItem('jwtToken', token);
+        }
+      })
       .catch(err => console.log(err))
     } else {
-      console.log('Submit Register');
-
-      // REGISTER ACTION
       this.props.register(this.state.credentials)
-      .then((response) => console.log(response))
+      .then((response) => {
+        // Successful register, set the token, redirect them
+        const { token } = response;
+        if (token) {
+          localStorage.setItem('jwtToken', token);
+        }
+      })
       .catch(err => console.log(err))
     }
   }

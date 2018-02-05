@@ -17,6 +17,8 @@ const getRequest = (path, params, actionType) => dispatch =>
         payload,
         params,
       });
+
+      return response;
     })
     .catch((err) => { throw err; });
 
@@ -36,14 +38,16 @@ const postRequest = (path, params, actionType) => dispatch =>
         payload,
         params,
       });
+
+      return response;
     })
     .catch((err) => { throw err; });
 
 export default {
 
-  checkCurrentUser: () =>
+  checkCurrentUser: params =>
     dispatch =>
-      dispatch(getRequest('/account/currentuser', null, constants.USER_LOGGED_IN)),
+      dispatch(getRequest('/account/currentuser', params, constants.USER_LOGGED_IN)),
 
   login: params =>
     dispatch =>

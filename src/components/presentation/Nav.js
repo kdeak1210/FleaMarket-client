@@ -1,6 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Nav = () => (
+const Nav = ({ user }) => (
   <nav className="navbar navbar-default">
     <div className="container-fluid">
       <div className="navbar-header">
@@ -36,10 +37,12 @@ const Nav = () => (
             </ul>
           </li>
           <li>
-            <a href="/">
-              <i className="ti-settings" />
-              <p>Settings</p>
-            </a>
+
+            <i className="ti-settings" />
+            { user
+              ? <p>Welcome {user.username}</p>
+              : <Link to="/auth">Login</Link>
+            }
           </li>
         </ul>
 
