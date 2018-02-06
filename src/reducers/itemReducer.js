@@ -26,7 +26,7 @@ export default (state = initialState, action) => {
 
     case constants.ITEM_CREATED:
       console.log(`ITEM CREATED: ${JSON.stringify(action.payload)}`);
-      return { ...state, all: [...state.all, action.payload] };
+      return { ...state, all: [action.payload, ...state.all] };
 
     default:
       return state;

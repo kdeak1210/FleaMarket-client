@@ -7,7 +7,7 @@ const Item = ({
 }) => (
   // id: 1, key: 1, defaultAnimation: 2, label: 'Television', position: { lat: 38.903, lng: -77.043 },
   <div className="col-lg-3 col-sm-6">
-    <div className="card">
+    <div className="card" style={localStyle.card}>
       <div className="content">
         <div className="row">
           <div className="col-xs-12">
@@ -16,7 +16,10 @@ const Item = ({
               ${price}
             </div>
           </div>
-          <div className="col-xs-12">
+          <div
+            className="col-xs-12"
+            style={localStyle.imageContainer}
+          >
             <img
               style={localStyle.itemImage}
               src={image}
@@ -49,9 +52,16 @@ const localStyle = {
   },
   itemImage: {
     width: '100%',
+    maxHeight: 256.5,
     padding: 4,
     border: '1px solid #ddd',
     background: '#f9f9f9',
+  },
+  imageContainer: {
+    minHeight: 257,
+  },
+  card: {
+    height: 385,
   },
 };
 
