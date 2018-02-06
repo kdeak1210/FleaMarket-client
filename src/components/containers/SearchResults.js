@@ -19,11 +19,22 @@ class SearchResults extends Component {
   }
 
   submitItem = () => {
+    const currentUser = this.props.account.user;
+    if (currentUser === null) {
+      alert('Please log in or register to add items');
+      return;
+    }
     // console.log(`Item: ${JSON.stringify(this.state.item)}`);
     // console.log(`Location: ${JSON.stringify(this.props.map.currentLocation)}`);
     const newItem = { ...this.state.item };
     newItem.id = this.props.item.all.length + 1;
     newItem.position = this.props.map.currentLocation;
+    newItem.seller = {
+      id: currentUser.id,
+      username: currentUser.username,
+      image: currentUser.image || '',
+    };
+
     this.props.addItem(newItem);
   }
 
@@ -37,7 +48,7 @@ class SearchResults extends Component {
     })
       .then((response) => {
         console.log(response);
-        const signedUrl = response.result;
+        const { signedUrl } = response;
 
         const options = {
           headers: {
@@ -45,10 +56,18 @@ class SearchResults extends Component {
           },
         };
 
+        // Try uploading the file to the signedUrl we received from Amazon
         return axios.put(signedUrl, file, options);
       })
       .then((response) => {
-        console.log(response);
+        if (response.status === 200) {
+          // url: "https://react-flea-market.s3.us-east-2.amazonaws.com/midtown.jpeg?Content-Type= ... etc
+          const { url } = response.config;
+          const imageUrl = url.substr(0, url.indexOf('?'));
+          console.log(imageUrl);
+
+          this.setState({ item: { ...this.state.item, image: imageUrl } });
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -92,6 +111,10 @@ class SearchResults extends Component {
                   />
                   <hr />
                   <div className="stats">
+                    { (this.state.item.image)
+                      ? <img style={{ width: 240 }} src={this.state.item.image} alt="item" />
+                      : null
+                    }
                     <Dropzone
                       onDrop={this.uploadImage}
                       multiple={false}
