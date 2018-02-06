@@ -20,9 +20,9 @@ export default (state = initialState, action) => {
     //   console.log(`ITEM_ADDED: ${JSON.stringify(action.payload)}`);
     //   return { ...state, all: [...state.all, action.payload] };
 
-    // case constants.ITEMS_RECEIVED:
-    //   console.log('Items Received');
-    //   return updated;
+    case constants.ITEMS_RECEIVED:
+      console.log(`ITEMS_RECEIVED: ${JSON.stringify(action.payload)}`);
+      return { ...state, all: [...action.payload, ...state.all] };
 
     case constants.ITEM_CREATED:
       console.log(`ITEM CREATED: ${JSON.stringify(action.payload)}`);

@@ -12,21 +12,15 @@ class SearchResults extends Component {
     item: { },
   }
 
+  componentDidMount() {
+    this.props.fetchItems();
+  }
+
   updateItem = (e) => {
     const updatedItem = { ...this.state.item };
     updatedItem[e.target.name] = e.target.value;
     this.setState({ item: updatedItem });
   }
-
-  // name: { type: String, default: '' },
-  // price: { type: Number, default: 0 },
-  // image: { type: String, default: '' },
-  // seller: { type: mongoose.SchemaTypes.Mixed, default: {} },
-  // geo: {
-  //   type: [Number],
-  //   index: '2d', // supports mongoose 2d geospatial queries
-  // },
-  // timestamp: { type: Date, default: Date.now },
 
   submitItem = () => {
     const currentUser = this.props.account.user;
@@ -164,7 +158,7 @@ const stateToProps = state => ({
 
 const dispatchToProps = dispatch => ({
   addItem: item => dispatch(actions.addItem(item)),
-  checkCurrentUser: params => dispatch(actions.checkCurrentUser(params)),
+  fetchItems: () => dispatch(actions.fetchItems()),
 });
 
 export default connect(stateToProps, dispatchToProps)(SearchResults);

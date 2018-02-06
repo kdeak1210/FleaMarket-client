@@ -5,14 +5,11 @@ import { Map } from '../presentation';
 import actions from '../../actions';
 
 class MapNavigation extends Component {
-  centerChanged = (newCenter) => {
-    // console.log(`Center changed: ${JSON.stringify(newCenter)}`);
-    this.props.locationChanged(newCenter);
-  }
-
-  render() {
-    const items = this.props.item.all || [];
+  createMarkers = (items) => {
     const markers = [];
+    if (items.length === 0) {
+      return markers;
+    }
 
     items.forEach((item) => {
       // transform item's geo property to be google-maps compliant (latlng object)
@@ -30,6 +27,18 @@ class MapNavigation extends Component {
 
       markers.push(marker);
     });
+
+    return markers;
+  }
+
+  centerChanged = (newCenter) => {
+    // console.log(`Center changed: ${JSON.stringify(newCenter)}`);
+    this.props.locationChanged(newCenter);
+  }
+
+  render() {
+    const items = this.props.item.all || [];
+    const markers = this.createMarkers(items);
 
     return (
       <div>

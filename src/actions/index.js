@@ -4,7 +4,7 @@ import { APIManager } from '../utils';
 const getRequest = (path, params, actionType) => dispatch =>
   APIManager.get(path, params)
     .then((response) => {
-      console.log(response);
+      // console.log(response);
 
       if (response.confirmation !== 'success') {
         throw new Error(response.message);
@@ -25,7 +25,7 @@ const getRequest = (path, params, actionType) => dispatch =>
 const postRequest = (path, params, actionType) => dispatch =>
   APIManager.post(path, params)
     .then((response) => {
-      console.log(response);
+      // console.log(response);
 
       if (response.confirmation !== 'success') {
         throw new Error(response.message);
@@ -54,13 +54,16 @@ export default {
   register: params => dispatch =>
     dispatch(postRequest('/account/register', params, constants.USER_LOGGED_IN)),
 
-  addItem: params => dispatch =>
-    dispatch(postRequest('/api/item', params, constants.ITEM_CREATED)),
-
   // addItem: item => ({
   //   type: constants.ITEM_ADDED,
   //   payload: item,
   // }),
+
+  addItem: params => dispatch =>
+    dispatch(postRequest('/api/item', params, constants.ITEM_CREATED)),
+
+  fetchItems: () => dispatch =>
+    dispatch(getRequest('/api/item', null, constants.ITEMS_RECEIVED)),
 
   locationChanged: location => ({
     type: constants.LOCATION_CHANGED,
