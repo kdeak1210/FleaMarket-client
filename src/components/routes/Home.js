@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Footer, Nav } from '../presentation';
-import { MapNavigation, SearchResults } from '../containers';
+import { Footer } from '../presentation';
+import { MapNavigation, Nav, SearchResults } from '../containers';
 import actions from '../../actions';
 
 class Home extends Component {

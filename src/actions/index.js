@@ -67,5 +67,9 @@ export default {
     payload: location,
   }),
 
+  logout: () => ({
+    type: constants.USER_LOGGED_OUT,
+  }),
+
 };
 
