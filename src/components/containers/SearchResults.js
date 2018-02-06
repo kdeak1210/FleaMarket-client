@@ -18,22 +18,32 @@ class SearchResults extends Component {
     this.setState({ item: updatedItem });
   }
 
+  // name: { type: String, default: '' },
+  // price: { type: Number, default: 0 },
+  // image: { type: String, default: '' },
+  // seller: { type: mongoose.SchemaTypes.Mixed, default: {} },
+  // geo: {
+  //   type: [Number],
+  //   index: '2d', // supports mongoose 2d geospatial queries
+  // },
+  // timestamp: { type: Date, default: Date.now },
+
   submitItem = () => {
     const currentUser = this.props.account.user;
     if (currentUser === null) {
       alert('Please log in or register to add items');
       return;
     }
-    // console.log(`Item: ${JSON.stringify(this.state.item)}`);
-    // console.log(`Location: ${JSON.stringify(this.props.map.currentLocation)}`);
     const newItem = { ...this.state.item };
     newItem.id = this.props.item.all.length + 1;
-    newItem.position = this.props.map.currentLocation;
     newItem.seller = {
       id: currentUser.id,
       username: currentUser.username,
       image: currentUser.image || '',
     };
+
+    const { lat, lng } = this.props.map.currentLocation;
+    newItem.geo = [lat, lng]; // required format mongo geospatial query
 
     this.props.addItem(newItem);
   }

@@ -45,22 +45,22 @@ const postRequest = (path, params, actionType) => dispatch =>
 
 export default {
 
-  checkCurrentUser: params =>
-    dispatch =>
-      dispatch(getRequest('/account/currentuser', params, constants.USER_LOGGED_IN)),
+  checkCurrentUser: params => dispatch =>
+    dispatch(getRequest('/account/currentuser', params, constants.USER_LOGGED_IN)),
 
-  login: params =>
-    dispatch =>
-      dispatch(postRequest('/account/login', params, constants.USER_LOGGED_IN)),
+  login: params => dispatch =>
+    dispatch(postRequest('/account/login', params, constants.USER_LOGGED_IN)),
 
-  register: params =>
-    dispatch =>
-      dispatch(postRequest('/account/register', params, constants.USER_LOGGED_IN)),
+  register: params => dispatch =>
+    dispatch(postRequest('/account/register', params, constants.USER_LOGGED_IN)),
 
-  addItem: item => ({
-    type: constants.ITEM_ADDED,
-    payload: item,
-  }),
+  addItem: params => dispatch =>
+    dispatch(postRequest('/api/item', params, constants.ITEM_CREATED)),
+
+  // addItem: item => ({
+  //   type: constants.ITEM_ADDED,
+  //   payload: item,
+  // }),
 
   locationChanged: location => ({
     type: constants.LOCATION_CHANGED,

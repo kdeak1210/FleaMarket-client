@@ -15,10 +15,16 @@ class MapNavigation extends Component {
     const markers = [];
 
     items.forEach((item) => {
+      // transform item's geo property to be google-maps compliant (latlng object)
+      const latlng = {
+        lat: item.geo[0],
+        lng: item.geo[1],
+      };
+
       const marker = {
         key: item.id,
         label: item.name,
-        position: item.position,
+        position: latlng,
         defaultAnimation: 2,
       };
 
