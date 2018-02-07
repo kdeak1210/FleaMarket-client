@@ -76,6 +76,7 @@ class SearchResults extends Component {
       id: currentUser.id,
       username: currentUser.username,
       image: currentUser.image || '',
+      email: currentUser.email,
     };
 
     const { lat, lng } = this.props.map.currentLocation;
@@ -95,11 +96,17 @@ class SearchResults extends Component {
       email,
     };
 
-    // this.props.submitOrder(order)
-    //   .then(response => console.log(response))
-    //   .catch(err => console.log(err));
-
-    this.setState({ showModal: false, selectedItem: null });
+    this.props.submitOrder(order)
+      .then((response) => {
+        const { result: orderPayload } = response;
+        return this.props.sendEmail(orderPayload);
+      })
+      .then((resp) => {
+        console.log(resp);
+        alert('Your email has been sent!');
+        this.setState({ showModal: false, selectedItem: null });
+      })
+      .catch(err => console.log(err));
   }
 
   updateItem = (event) => {
@@ -223,6 +230,7 @@ const dispatchToProps = dispatch => ({
   addItem: item => dispatch(actions.addItem(item)),
   fetchItems: params => dispatch(actions.fetchItems(params)),
   submitOrder: order => dispatch(actions.submitOrder(order)),
+  sendEmail: email => dispatch(actions.sendEmail(email)),
 });
 
 export default connect(stateToProps, dispatchToProps)(SearchResults);

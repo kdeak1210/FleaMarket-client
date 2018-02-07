@@ -69,6 +69,9 @@ export default {
     // Not passing in action type (send it and done, not tracking orders in store)
     dispatch(postRequest('/api/order', params, null)),
 
+  sendEmail: params => dispatch =>
+    dispatch(postRequest('/email/send', params, null)),
+
   locationChanged: location => ({
     type: constants.LOCATION_CHANGED,
     payload: location,
