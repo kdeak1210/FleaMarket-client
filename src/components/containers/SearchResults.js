@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import { connect } from 'react-redux';
+import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 
 import { APIManager } from '../../utils';
@@ -9,37 +10,22 @@ import actions from '../../actions';
 
 class SearchResults extends Component {
   state = {
-    item: { },
+    item: {},
+    order: {},
+    showModal: false,
+    selectedItem: {},
   }
 
   componentDidMount() {
-    this.props.fetchItems();
+    this.props.fetchItems(null);
   }
 
-  updateItem = (e) => {
-    const updatedItem = { ...this.state.item };
-    updatedItem[e.target.name] = e.target.value;
-    this.setState({ item: updatedItem });
-  }
-
-  submitItem = () => {
-    const currentUser = this.props.account.user;
-    if (currentUser === null) {
-      alert('Please log in or register to add items');
-      return;
-    }
-    const newItem = { ...this.state.item };
-    newItem.id = this.props.item.all.length + 1;
-    newItem.seller = {
-      id: currentUser.id,
-      username: currentUser.username,
-      image: currentUser.image || '',
-    };
-
-    const { lat, lng } = this.props.map.currentLocation;
-    newItem.geo = [lat, lng]; // required format mongo geospatial query
-
-    this.props.addItem(newItem);
+  onPurchase = (item, event) => {
+    event.preventDefault();
+    this.setState({
+      showModal: true,
+      selectedItem: item,
+    });
   }
 
   uploadImage = (files) => {
@@ -78,6 +64,54 @@ class SearchResults extends Component {
       });
   }
 
+  submitItem = () => {
+    const { currentUser } = this.props.account;
+    if (currentUser === null) {
+      alert('Please log in or register to add items');
+      return;
+    }
+    const newItem = { ...this.state.item };
+    newItem.id = this.props.item.all.length + 1;
+    newItem.seller = {
+      id: currentUser.id,
+      username: currentUser.username,
+      image: currentUser.image || '',
+    };
+
+    const { lat, lng } = this.props.map.currentLocation;
+    newItem.geo = [lat, lng]; // required format mongo geospatial query
+
+    this.props.addItem(newItem);
+  }
+
+  submitOrder = () => {
+    const order = { ...this.state.order };
+    order.item = this.state.selectedItem;
+
+    const { id, username, email } = this.props.account.currentUser;
+    order.buyer = {
+      id,
+      username,
+      email,
+    };
+
+    // this.props.submitOrder(order)
+    //   .then(response => console.log(response))
+    //   .catch(err => console.log(err));
+
+    this.setState({ showModal: false, selectedItem: null });
+  }
+
+  updateItem = (event) => {
+    const { name, value } = event.target;
+    this.setState({ item: { ...this.state.item, [name]: value } });
+  }
+
+  updateOrder = (event) => {
+    const { value } = event.target;
+    this.setState({ order: { ...this.state.order, message: value } });
+  }
+
   render() {
     const { all } = this.props.item || [];
 
@@ -85,8 +119,12 @@ class SearchResults extends Component {
       <div className="container-fluid">
 
         <div className="row">
-          { all.map((item, i) => (
-            <Item key={item.id} item={item} />
+          { all.map(item => (
+            <Item
+              onPurchase={event => this.onPurchase(item, event)}
+              key={item.id}
+              item={item}
+            />
           ))}
         </div>
 
@@ -138,6 +176,26 @@ class SearchResults extends Component {
 
           </div>
         </div>
+
+        <Modal
+          bsSize="sm"
+          show={this.state.showModal}
+          onHide={() => { this.setState({ showModal: false }); }}
+        >
+          <Modal.Body>
+            <h3>Purchase this Item</h3>
+            <hr />
+            <textarea
+              onChange={this.updateOrder}
+              className="form-control"
+              style={localStyle.textarea}
+              placeholder="Enter message here"
+            />
+            <button onClick={this.submitOrder} className="btn btn-success btn-fill">
+              Email seller
+            </button>
+          </Modal.Body>
+        </Modal>
       </div>
     );
   }
@@ -147,6 +205,11 @@ const localStyle = {
   inputField: {
     marginBottom: 12,
     border: '1px solid #ddd',
+  },
+  textarea: {
+    border: '1px solid #ddd',
+    height: 160,
+    marginBottom: 16,
   },
 };
 
@@ -158,7 +221,8 @@ const stateToProps = state => ({
 
 const dispatchToProps = dispatch => ({
   addItem: item => dispatch(actions.addItem(item)),
-  fetchItems: () => dispatch(actions.fetchItems()),
+  fetchItems: params => dispatch(actions.fetchItems(params)),
+  submitOrder: order => dispatch(actions.submitOrder(order)),
 });
 
 export default connect(stateToProps, dispatchToProps)(SearchResults);

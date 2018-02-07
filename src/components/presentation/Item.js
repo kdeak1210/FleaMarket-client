@@ -2,8 +2,9 @@ import React from 'react';
 
 const Item = ({
   item: {
-    id, key, name, price, image, seller,
+    name, price, image, seller,
   },
+  onPurchase,
 }) => (
   // id: 1, key: 1, defaultAnimation: 2, label: 'Television', position: { lat: 38.903, lng: -77.043 },
   <div className="col-lg-3 col-sm-6">
@@ -20,11 +21,13 @@ const Item = ({
             className="col-xs-12"
             style={localStyle.imageContainer}
           >
-            <img
-              style={localStyle.itemImage}
-              src={image}
-              alt="item"
-            />
+            <a href="/" onClick={onPurchase}>
+              <img
+                style={localStyle.itemImage}
+                src={image}
+                alt="item"
+              />
+            </a>
           </div>
         </div>
 
@@ -45,6 +48,9 @@ const Item = ({
 );
 
 const localStyle = {
+  card: {
+    height: 385,
+  },
   avatar: {
     width: 32,
     borderRadius: 16,
@@ -59,9 +65,6 @@ const localStyle = {
   },
   imageContainer: {
     minHeight: 257,
-  },
-  card: {
-    height: 385,
   },
 };
 

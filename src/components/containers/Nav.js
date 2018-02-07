@@ -11,7 +11,7 @@ class Nav extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { currentUser } = this.props;
 
     return (
       <nav className="navbar navbar-default">
@@ -21,10 +21,10 @@ class Nav extends Component {
           </div>
           <div className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
-              { user ? (
+              { currentUser ? (
                 <React.Fragment>
                   <li>
-                    <a>Welcome {user.username}</a>
+                    <a>Welcome {currentUser.username}</a>
                   </li>
                   <li>
                     <button

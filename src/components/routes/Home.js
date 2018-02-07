@@ -7,7 +7,7 @@ import actions from '../../actions';
 
 class Home extends Component {
   componentDidMount() {
-    if (this.props.account.user === null) {
+    if (this.props.account.currentUser === null) {
       this.getUserFromToken();
     }
   }
@@ -23,7 +23,7 @@ class Home extends Component {
   }
 
   render() {
-    const user = this.props.account.user || null;
+    const { currentUser } = this.props.account || null;
 
     return (
       <div className="wrapper">
@@ -37,7 +37,7 @@ class Home extends Component {
 
         <div className="main-panel">
 
-          <Nav user={user} />
+          <Nav currentUser={currentUser} />
 
           <div className="content">
 

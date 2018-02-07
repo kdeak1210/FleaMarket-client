@@ -62,8 +62,12 @@ export default {
   addItem: params => dispatch =>
     dispatch(postRequest('/api/item', params, constants.ITEM_CREATED)),
 
-  fetchItems: () => dispatch =>
-    dispatch(getRequest('/api/item', null, constants.ITEMS_RECEIVED)),
+  fetchItems: params => dispatch =>
+    dispatch(getRequest('/api/item', params, constants.ITEMS_RECEIVED)),
+
+  submitOrder: params => dispatch =>
+    // Not passing in action type (send it and done, not tracking orders in store)
+    dispatch(postRequest('/api/order', params, null)),
 
   locationChanged: location => ({
     type: constants.LOCATION_CHANGED,
