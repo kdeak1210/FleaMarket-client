@@ -2,14 +2,9 @@ import React, { Component } from 'react';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 
 class Map extends Component {
-  constructor() {
-    super();
-    this.state = {
-      map: null,
-    };
-
-    this.mapDragged = this.mapDragged.bind(this);
-  }
+  state = {
+    map: null,
+  };
 
   mapDragged = () => {
     const latLng = this.state.map.getCenter().toJSON();
@@ -24,7 +19,6 @@ class Map extends Component {
       <GoogleMap
         ref={(map) => {
             if (this.state.map != null) { return; }
-
             this.setState({ map });
           }
         }
@@ -32,10 +26,7 @@ class Map extends Component {
         defaultCenter={this.props.center}
         onDragEnd={this.mapDragged}
       >
-        {markers.map((marker, index) => (
-          <Marker {...marker} />
-          ))}
-
+        {markers.map(marker => <Marker {...marker} />)}
       </GoogleMap>
     );
   }

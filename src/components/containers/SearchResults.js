@@ -131,7 +131,7 @@ class SearchResults extends Component {
   }
 
   render() {
-    // const { all } = this.props.item || [];
+    // const { all } = this.props.item || []; // GOTCHA w/ destructuring
     const all = this.props.item.all || [];
 
     return (

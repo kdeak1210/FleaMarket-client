@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Map } from '../presentation';
+import { AddItem, Map } from '../presentation';
 import actions from '../../actions';
 
 class MapNavigation extends Component {
@@ -41,23 +41,33 @@ class MapNavigation extends Component {
     const markers = this.createMarkers(items);
 
     return (
-      <div>
+      <div style={localStyle.flexWrapper}>
         <Map
           center={this.props.map.currentLocation}
           zoom={14}
           mapMoved={this.centerChanged}
           containerElement={
-            <div style={{ height: '100vh' }} />
+            <div style={{ height: '100%' }} />
           }
           mapElement={
             <div style={{ height: '100%' }} />
           }
           markers={markers}
         />
+        <AddItem />
       </div>
     );
   }
 }
+
+const localStyle = {
+  flexWrapper: {
+    height: '100vh',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
+};
 
 const stateToProps = state => ({
   item: state.item,
