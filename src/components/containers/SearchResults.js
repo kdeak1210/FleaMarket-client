@@ -17,7 +17,18 @@ class SearchResults extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchItems(null);
+    console.log('CDM');
+    const { currentLocation } = this.props.map;
+    this.props.fetchItems(currentLocation);
+  }
+
+  componentDidUpdate() {
+    console.log('CDU');
+    const { currentLocation } = this.props.map;
+
+    if (!this.props.item.all) {
+      this.props.fetchItems(currentLocation);
+    }
   }
 
   onPurchase = (item, event) => {
@@ -120,7 +131,8 @@ class SearchResults extends Component {
   }
 
   render() {
-    const { all } = this.props.item || [];
+    // const { all } = this.props.item || [];
+    const all = this.props.item.all || [];
 
     return (
       <div className="container-fluid">

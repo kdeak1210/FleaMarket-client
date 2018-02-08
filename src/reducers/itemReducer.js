@@ -1,7 +1,7 @@
 import constants from '../constants';
 
 const initialState = {
-  all: [],
+  all: null,
   // [
   //   {
   //     id: 1, name: 'Television', price: 100, image: 'https://i.amz.mshcdn.com/e9PM6xWVAGxA408GPLIBPTXaMV0=/http%3A%2F%2Fa.amz.mshcdn.com%2Fwp-content%2Fuploads%2F2015%2F01%2FBigTV.jpg', geo: [38.903, -77.043], seller: { username: 'kyle', image: 'http://ww3.hdnux.com/photos/71/12/20/14984254/5/920x920.jpg' },
@@ -17,17 +17,17 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    // case constants.ITEM_ADDED:
-    //   console.log(`ITEM_ADDED: ${JSON.stringify(action.payload)}`);
-    //   return { ...state, all: [...state.all, action.payload] };
-
     case constants.ITEMS_RECEIVED:
       console.log(`ITEMS_RECEIVED: ${JSON.stringify(action.payload)}`);
       return { ...state, all: [...action.payload] };
 
     case constants.ITEM_CREATED:
       console.log(`ITEM CREATED: ${JSON.stringify(action.payload)}`);
-      return { ...state, all: [action.payload, ...state.all] };
+      return { ...state, all: [action.payload, ...(state.all) || []] };
+
+    case constants.LOCATION_CHANGED:
+      console.log('LOCAITON_CHANGED: [wipe the list in store for requery]');
+      return { ...state, all: null };
 
     default:
       return state;
