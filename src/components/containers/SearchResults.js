@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Modal } from 'react-bootstrap';
 
-import { Item } from '../presentation';
+import { Item, OrderModal } from '../presentation';
 import actions from '../../actions';
 
 class SearchResults extends Component {
   state = {
-    order: {},
-    showModal: false,
-    selectedItem: {},
+    showOrderModal: false,
+    selectedItem: null,
   }
 
   componentDidMount() {
@@ -19,7 +17,6 @@ class SearchResults extends Component {
 
   componentDidUpdate() {
     const { currentLocation } = this.props.map;
-
     if (!this.props.item.all) {
       this.props.fetchItems(currentLocation);
     }
@@ -27,24 +24,19 @@ class SearchResults extends Component {
 
   onPurchase = (item, event) => {
     event.preventDefault();
-    this.setState({
-      showModal: true,
-      selectedItem: item,
-    });
+    this.setState({ showOrderModal: true, selectedItem: item });
   }
 
-  submitOrder = () => {
-    const order = { ...this.state.order };
-    order.item = this.state.selectedItem;
-
+  submitOrder = (order) => {
+    const orderWithBuyer = { ...order };
     const { id, username, email } = this.props.account.currentUser;
-    order.buyer = {
+    orderWithBuyer.buyer = {
       id,
       username,
       email,
     };
 
-    this.props.submitOrder(order)
+    this.props.submitOrder(orderWithBuyer)
       .then((response) => {
         const { result: orderPayload } = response;
         return this.props.sendEmail(orderPayload);
@@ -52,14 +44,9 @@ class SearchResults extends Component {
       .then((resp) => {
         console.log(resp);
         alert('Your email has been sent!');
-        this.setState({ showModal: false, selectedItem: null });
+        this.setState({ showOrderModal: false, selectedItem: null });
       })
       .catch(err => console.log(err));
-  }
-
-  updateOrder = (event) => {
-    const { value } = event.target;
-    this.setState({ order: { ...this.state.order, message: value } });
   }
 
   removeItem = (itemId) => {
@@ -69,6 +56,10 @@ class SearchResults extends Component {
       .catch(err => alert(err));
   }
 
+  toggleModal = () => {
+    this.setState(prev => ({ showOrderModal: !prev.showOrderModal }));
+  }
+
   render() {
     // const { all } = this.props.item || []; // GOTCHA w/ destructuring
     const all = this.props.item.all || [];
@@ -76,7 +67,6 @@ class SearchResults extends Component {
 
     return (
       <div className="container-fluid">
-
         <div className="row">
           { all && all.map((item) => {
             const isMine = currentUser && (item.seller.id === currentUser.id);
@@ -87,41 +77,20 @@ class SearchResults extends Component {
                 onRemove={this.removeItem}
                 item={item}
                 isMine={isMine}
-              />);
+              />
+            );
           })}
         </div>
-
-        <Modal
-          bsSize="sm"
-          show={this.state.showModal}
-          onHide={() => { this.setState({ showModal: false }); }}
-        >
-          <Modal.Body>
-            <h3>Purchase this Item</h3>
-            <hr />
-            <textarea
-              onChange={this.updateOrder}
-              className="form-control"
-              style={localStyle.textarea}
-              placeholder="Enter message here"
-            />
-            <button onClick={this.submitOrder} className="btn btn-success btn-fill">
-              Email seller
-            </button>
-          </Modal.Body>
-        </Modal>
+        <OrderModal
+          show={this.state.showOrderModal}
+          onHide={this.toggleModal}
+          selectedItem={this.state.selectedItem}
+          submitOrder={this.submitOrder}
+        />
       </div>
     );
   }
 }
-
-const localStyle = {
-  textarea: {
-    border: '1px solid #ddd',
-    height: 160,
-    marginBottom: 16,
-  },
-};
 
 const stateToProps = state => ({
   account: state.account,
