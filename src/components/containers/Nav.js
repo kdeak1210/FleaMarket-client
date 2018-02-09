@@ -5,6 +5,10 @@ import { connect } from 'react-redux';
 import actions from '../../actions';
 
 class Nav extends Component {
+  state = {
+    showHelpModal: false,
+  }
+
   logout = () => {
     this.props.logout();
     localStorage.removeItem('jwtToken');
@@ -17,23 +21,24 @@ class Nav extends Component {
       <nav className="navbar navbar-default">
         <div className="container-fluid">
           <div className="navbar-header">
-            <a className="navbar-brand" href="/">React FleaMarket</a>
+            <h4 className="navbar-brand">React FleaMarket</h4>
           </div>
-          <div className="collapse navbar-collapse">
-            <ul className="nav navbar-nav navbar-right">
-              { currentUser ? (
-                <React.Fragment>
-                  <li>
-                    <a>Welcome {currentUser.username}</a>
-                  </li>
-                  <li>
+          <ul className="nav navbar-nav navbar-right">
+            { currentUser ? (
+              <React.Fragment>
+                <li>
+                  <h4 style={{ marginRight: 18 }}>Welcome {currentUser.username}</h4>
+                </li>
+                <li>
+                  <a>
                     <button
                       className="btn btn-lg btn-danger"
                       onClick={this.logout}
                     >Logout
                     </button>
-                  </li>
-                </React.Fragment>
+                  </a>
+                </li>
+              </React.Fragment>
               ) : (
                 <li>
                   <Link to="/auth">
@@ -41,8 +46,10 @@ class Nav extends Component {
                   </Link>
                 </li>
               )}
-            </ul>
-          </div>
+            <li>
+              <a><button className="btn btn-lg btn-info">Info</button></a>
+            </li>
+          </ul>
         </div>
       </nav>
     );
