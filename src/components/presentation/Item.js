@@ -5,14 +5,21 @@ const Item = ({
     name, price, image, seller,
   },
   onPurchase,
+  isMine,
 }) => (
-  // id: 1, key: 1, defaultAnimation: 2, label: 'Television', position: { lat: 38.903, lng: -77.043 },
   <div className="col-lg-3 col-sm-6">
     <div className="card" style={localStyle.card}>
       <div className="content">
         <div className="row">
           <div className="col-xs-12">
             <div className="numbers">
+              { isMine && (
+                <button
+                  className="btn btn-danger"
+                  style={localStyle.deleteButton}
+                >X
+                </button>
+              )}
               <p>{name}</p>
               ${price}
             </div>
@@ -22,11 +29,24 @@ const Item = ({
             style={localStyle.imageContainer}
           >
             <a href="/" onClick={onPurchase}>
-              <img
-                style={localStyle.itemImage}
-                src={image}
-                alt="item"
-              />
+              {image ? (
+                <img
+                  style={localStyle.itemImage}
+                  src={image}
+                  alt="item"
+                />
+              ) : (
+                <React.Fragment>
+                  <br /><br />
+                  <h3 style={{ textAlign: 'center' }}>
+                    No Image Provided
+                  </h3>
+                  <br /><br />
+                  <h5 style={{ textAlign: 'center' }}>
+                    Click to Email {seller.username}
+                  </h5>
+                </React.Fragment>
+              )}
             </a>
           </div>
         </div>
@@ -39,7 +59,7 @@ const Item = ({
             alt="seller"
           />
           <div className="stats">
-            {seller.username}
+            {seller.username} {isMine ? '(you)' : ''}
           </div>
         </div>
       </div>
@@ -65,6 +85,11 @@ const localStyle = {
   },
   imageContainer: {
     minHeight: 257,
+  },
+  deleteButton: {
+    float: 'left',
+    padding: '2px 12px',
+    fontSize: 20,
   },
 };
 

@@ -67,18 +67,22 @@ class SearchResults extends Component {
   render() {
     // const { all } = this.props.item || []; // GOTCHA w/ destructuring
     const all = this.props.item.all || [];
+    const { currentUser } = this.props.account;
 
     return (
       <div className="container-fluid">
 
         <div className="row">
-          { all.map(item => (
-            <Item
-              onPurchase={event => this.onPurchase(item, event)}
-              key={item.id}
-              item={item}
-            />
-          ))}
+          { all && all.map((item) => {
+            const isMine = currentUser && (item.seller.id === currentUser.id);
+            return (
+              <Item
+                key={item.id}
+                onPurchase={event => this.onPurchase(item, event)}
+                item={item}
+                isMine={isMine}
+              />);
+          })}
         </div>
 
         <Modal
