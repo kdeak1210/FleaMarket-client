@@ -10,6 +10,22 @@ class Nav extends Component {
     showInfoModal: false,
   }
 
+  componentDidMount() {
+    if (this.props.account.currentUser === null) {
+      this.getUserFromToken();
+    }
+  }
+
+  getUserFromToken = () => {
+    const token = localStorage.getItem('jwtToken');
+    if (!token || token === '') {
+      return;
+    }
+    this.props.checkCurrentUser({ token })
+      .then(response => console.log(response))
+      .catch(err => console.log(err));
+  }
+
   logout = () => {
     this.props.logout();
     localStorage.removeItem('jwtToken');
@@ -20,7 +36,7 @@ class Nav extends Component {
   }
 
   render() {
-    const { currentUser } = this.props;
+    const { currentUser } = this.props.account;
 
     return (
       <nav className="navbar navbar-default">
@@ -68,9 +84,14 @@ class Nav extends Component {
   }
 }
 
+const stateToProps = state => ({
+  account: state.account,
+});
+
 const dispatchToProps = dispatch => ({
+  checkCurrentUser: params => dispatch(actions.checkCurrentUser(params)),
   logout: () => dispatch(actions.logout()),
 });
 
-export default connect(null, dispatchToProps)(Nav);
+export default connect(stateToProps, dispatchToProps)(Nav);
 

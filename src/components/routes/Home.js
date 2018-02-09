@@ -1,30 +1,10 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 
 import { Footer } from '../presentation';
 import { MapNavigation, Nav, SearchResults } from '../containers';
-import actions from '../../actions';
 
 class Home extends Component {
-  componentDidMount() {
-    if (this.props.account.currentUser === null) {
-      this.getUserFromToken();
-    }
-  }
-
-  getUserFromToken = () => {
-    const token = localStorage.getItem('jwtToken');
-    if (!token || token === '') {
-      return;
-    }
-    this.props.checkCurrentUser({ token })
-      .then(response => console.log(response))
-      .catch(err => console.log(err));
-  }
-
   render() {
-    const { currentUser } = this.props.account || null;
-
     return (
       <div className="wrapper">
         <div className="sidebar" data-background-color="white" data-active-color="danger">
@@ -37,7 +17,7 @@ class Home extends Component {
 
         <div className="main-panel">
 
-          <Nav currentUser={currentUser} />
+          <Nav />
 
           <div className="content">
 
@@ -53,12 +33,4 @@ class Home extends Component {
   }
 }
 
-const stateToProps = state => ({
-  account: state.account,
-});
-
-const dispatchToProps = dispatch => ({
-  checkCurrentUser: params => dispatch(actions.checkCurrentUser(params)),
-});
-
-export default connect(stateToProps, dispatchToProps)(Home);
+export default Home;
