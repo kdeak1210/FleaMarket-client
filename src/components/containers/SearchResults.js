@@ -11,11 +11,15 @@ class SearchResults extends Component {
   }
 
   componentDidMount() {
-    const { currentLocation } = this.props.map;
-    this.props.fetchItems(currentLocation);
+    this.getItems();
   }
 
   componentDidUpdate() {
+    this.getItems();
+  }
+
+  // eslint-disable-next-line react/sort-comp
+  getItems = () => {
     const { currentLocation } = this.props.map;
     if (!this.props.item.all) {
       this.props.fetchItems(currentLocation);
@@ -50,7 +54,6 @@ class SearchResults extends Component {
   }
 
   removeItem = (itemId) => {
-    // console.log(`remove item - id: ${itemId}`);
     this.props.removeItem(itemId)
       .then(() => alert('item removed'))
       .catch(err => alert(err));
@@ -68,7 +71,8 @@ class SearchResults extends Component {
     return (
       <div className="container-fluid">
         <div className="row">
-          { all && all.map((item) => {
+          {!all.length ? <h3>No Nearby Items</h3> : (
+          all.map((item) => {
             const isMine = currentUser && (item.seller.id === currentUser.id);
             return (
               <Item
@@ -79,7 +83,7 @@ class SearchResults extends Component {
                 isMine={isMine}
               />
             );
-          })}
+          }))}
         </div>
         <OrderModal
           show={this.state.showOrderModal}

@@ -58,6 +58,17 @@ class AddItem extends Component {
       alert('Please log in or register to add items');
       return;
     }
+
+    if (!this.state.name) {
+      alert('You must enter a name for your item listing');
+      return;
+    }
+
+    if (!this.state.name) {
+      alert('You must specify a price for your item listing');
+      return;
+    }
+
     const newItem = { ...this.state };
     newItem.seller = {
       id: currentUser.id,
@@ -67,7 +78,7 @@ class AddItem extends Component {
     };
 
     this.props.onSubmit(newItem);
-    this.setState({ name: '', price: '' });
+    this.setState({ name: '', price: '', image: '' });
   }
 
   render() {
