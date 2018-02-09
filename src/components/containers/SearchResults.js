@@ -13,13 +13,11 @@ class SearchResults extends Component {
   }
 
   componentDidMount() {
-    console.log('CDM');
     const { currentLocation } = this.props.map;
     this.props.fetchItems(currentLocation);
   }
 
   componentDidUpdate() {
-    console.log('CDU');
     const { currentLocation } = this.props.map;
 
     if (!this.props.item.all) {
@@ -64,6 +62,13 @@ class SearchResults extends Component {
     this.setState({ order: { ...this.state.order, message: value } });
   }
 
+  removeItem = (itemId) => {
+    // console.log(`remove item - id: ${itemId}`);
+    this.props.removeItem(itemId)
+      .then(() => alert('item removed'))
+      .catch(err => alert(err));
+  }
+
   render() {
     // const { all } = this.props.item || []; // GOTCHA w/ destructuring
     const all = this.props.item.all || [];
@@ -79,6 +84,7 @@ class SearchResults extends Component {
               <Item
                 key={item.id}
                 onPurchase={event => this.onPurchase(item, event)}
+                onRemove={this.removeItem}
                 item={item}
                 isMine={isMine}
               />);
@@ -127,6 +133,7 @@ const dispatchToProps = dispatch => ({
   fetchItems: params => dispatch(actions.fetchItems(params)),
   submitOrder: order => dispatch(actions.submitOrder(order)),
   sendEmail: email => dispatch(actions.sendEmail(email)),
+  removeItem: id => dispatch(actions.removeItem(id)),
 });
 
 export default connect(stateToProps, dispatchToProps)(SearchResults);

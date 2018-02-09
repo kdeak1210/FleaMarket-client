@@ -2,9 +2,10 @@ import React from 'react';
 
 const Item = ({
   item: {
-    name, price, image, seller,
+    id, name, price, image, seller,
   },
   onPurchase,
+  onRemove,
   isMine,
 }) => (
   <div className="col-lg-3 col-sm-6">
@@ -15,6 +16,7 @@ const Item = ({
             <div className="numbers">
               { isMine && (
                 <button
+                  onClick={() => onRemove(id)}
                   className="btn btn-danger"
                   style={localStyle.deleteButton}
                 >X

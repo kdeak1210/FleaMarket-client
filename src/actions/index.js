@@ -5,19 +5,12 @@ const getRequest = (path, params, actionType) => dispatch =>
   APIManager.get(path, params)
     .then((response) => {
       // console.log(response);
-
       if (response.confirmation !== 'success') {
         throw new Error(response.message);
       }
 
       const payload = response.results || response.result || response.user;
-
-      dispatch({
-        type: actionType,
-        payload,
-        params,
-      });
-
+      dispatch({ type: actionType, payload, params });
       return response;
     })
     .catch((err) => { throw err; });
@@ -26,19 +19,26 @@ const postRequest = (path, params, actionType) => dispatch =>
   APIManager.post(path, params)
     .then((response) => {
       // console.log(response);
-
       if (response.confirmation !== 'success') {
         throw new Error(response.message);
       }
 
       const payload = response.results || response.result || response.user;
+      dispatch({ type: actionType, payload, params });
+      return response;
+    })
+    .catch((err) => { throw err; });
 
-      dispatch({
-        type: actionType,
-        payload,
-        params,
-      });
+const deleteRequest = (path, params, actionType) => dispatch =>
+  APIManager.delete(path, params)
+    .then((response) => {
+      // console.log(response);
+      if (response.confirmation !== 'success') {
+        throw new Error(response.message);
+      }
 
+      const payload = response.results || response.result || response.user;
+      dispatch({ type: actionType, payload, params });
       return response;
     })
     .catch((err) => { throw err; });
@@ -54,16 +54,14 @@ export default {
   register: params => dispatch =>
     dispatch(postRequest('/account/register', params, constants.USER_LOGGED_IN)),
 
-  // addItem: item => ({
-  //   type: constants.ITEM_ADDED,
-  //   payload: item,
-  // }),
+  fetchItems: params => dispatch =>
+    dispatch(getRequest('/api/item', params, constants.ITEMS_RECEIVED)),
 
   addItem: params => dispatch =>
     dispatch(postRequest('/api/item', params, constants.ITEM_CREATED)),
 
-  fetchItems: params => dispatch =>
-    dispatch(getRequest('/api/item', params, constants.ITEMS_RECEIVED)),
+  removeItem: id => dispatch =>
+    dispatch(deleteRequest(`/api/item/${id}`, null, constants.ITEM_REMOVED)),
 
   submitOrder: params => dispatch =>
     // Not passing in action type (send it and done, not tracking orders in store)

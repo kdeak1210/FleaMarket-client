@@ -35,4 +35,16 @@ export default {
     }
   }),
 
+  // put: () => {}
+
+  delete: (path, params) => new Promise(async (resolve, reject) => {
+    const url = `${host}${path}`;
+    try {
+      const response = await axios.delete(url, params);
+      resolve(response.data);
+    } catch (err) {
+      reject(err);
+    }
+  }),
+
 };
