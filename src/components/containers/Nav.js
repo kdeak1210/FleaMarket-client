@@ -2,16 +2,21 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { InfoModal } from '../presentation';
 import actions from '../../actions';
 
 class Nav extends Component {
   state = {
-    showHelpModal: false,
+    showInfoModal: false,
   }
 
   logout = () => {
     this.props.logout();
     localStorage.removeItem('jwtToken');
+  }
+
+  toggleModal = () => {
+    this.setState(prev => ({ showInfoModal: !prev.showInfoModal }));
   }
 
   render() {
@@ -47,9 +52,16 @@ class Nav extends Component {
                 </li>
               )}
             <li>
-              <a><button className="btn btn-lg btn-info">Info</button></a>
+              <a>
+                <button
+                  className="btn btn-lg btn-info"
+                  onClick={this.toggleModal}
+                >Info
+                </button>
+              </a>
             </li>
           </ul>
+          <InfoModal show={this.state.showInfoModal} onHide={this.toggleModal} />
         </div>
       </nav>
     );
