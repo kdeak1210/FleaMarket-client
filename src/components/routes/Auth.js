@@ -1,11 +1,11 @@
 /* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 import actions from '../../actions'
 
-class Login extends Component {
+class Auth extends Component {
   state = {
     renderLogin: true,
     credentials: {
@@ -37,7 +37,7 @@ class Login extends Component {
         }
         this.props.history.push('/');
       })
-      .catch(err => console.log(err))
+      .catch(err => alert(err))
     } else {
       this.props.register(this.state.credentials)
       .then((response) => {
@@ -48,7 +48,7 @@ class Login extends Component {
         }
         this.props.history.push('/');        
       })
-      .catch(err => console.log(err))
+      .catch(err => alert(err))
     }
   }
 
@@ -94,19 +94,20 @@ class Login extends Component {
                 <hr />
                 <div className="stats">
                   <button
-                    className={`btn btn-${renderLogin ? 'info' : 'primary'}`}
+                    className={`btn btn-lg btn-${renderLogin ? 'info' : 'primary'}`}
                     onClick={this.submitForm}
                   >{selectedForm}
                   </button>
                 </div>
-                <p
+                <h5
                   style={{ float: 'right', cursor: 'pointer', color: '#0645AD' }}
                   onClick={this.toggleForm}
                 >Switch to {otherForm}
-                </p>
+                </h5>
               </div>
             </div>
           </div>
+          <Link to="/"><h5>...Or Just Return to the Map</h5></Link>
         </div>
       </div>
     );
@@ -125,5 +126,5 @@ const dispatchToProps = dispatch => ({
   register: params => dispatch(actions.register(params))
 })
 
-export default withRouter(connect(null, dispatchToProps)(Login));
+export default withRouter(connect(null, dispatchToProps)(Auth));
 

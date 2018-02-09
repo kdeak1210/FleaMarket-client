@@ -17,7 +17,7 @@ class Nav extends Component {
       <nav className="navbar navbar-default">
         <div className="container-fluid">
           <div className="navbar-header">
-            <a className="navbar-brand" href="/">Dashboard</a>
+            <a className="navbar-brand" href="/">React FleaMarket</a>
           </div>
           <div className="collapse navbar-collapse">
             <ul className="nav navbar-nav navbar-right">
@@ -28,7 +28,7 @@ class Nav extends Component {
                   </li>
                   <li>
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-lg btn-danger"
                       onClick={this.logout}
                     >Logout
                     </button>
@@ -36,7 +36,9 @@ class Nav extends Component {
                 </React.Fragment>
               ) : (
                 <li>
-                  <Link to="/auth">Login</Link>
+                  <Link to="/auth">
+                    <button className="btn btn-lg btn-success">Login</button>
+                  </Link>
                 </li>
               )}
             </ul>
