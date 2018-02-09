@@ -5,6 +5,13 @@ import { AddItem, Map } from '../presentation';
 import actions from '../../actions';
 
 class MapNavigation extends Component {
+  addItem = (item) => {
+    const { lat, lng } = this.props.map.currentLocation;
+    // make copy and add geo - required format mongo geospatial query
+    const itemWithGeo = { ...item, geo: [lat, lng] };
+    this.props.addItem(itemWithGeo);
+  }
+
   createMarkers = (items) => {
     const markers = [];
     if (items.length === 0) {
@@ -39,42 +46,36 @@ class MapNavigation extends Component {
   render() {
     const items = this.props.item.all || [];
     const markers = this.createMarkers(items);
+    const { currentUser } = this.props.account;
 
     return (
-      <div style={localStyle.flexWrapper}>
+      <React.Fragment>
         <Map
           center={this.props.map.currentLocation}
           zoom={14}
           mapMoved={this.centerChanged}
           containerElement={
-            <div style={{ height: '100%' }} />
+            <div style={{ height: 'calc(100vh - 242px)' }} />
           }
           mapElement={
             <div style={{ height: '100%' }} />
           }
           markers={markers}
         />
-        <AddItem />
-      </div>
+        <AddItem currentUser={currentUser} onSubmit={this.addItem} />
+      </React.Fragment>
     );
   }
 }
 
-const localStyle = {
-  flexWrapper: {
-    height: '100vh',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-  },
-};
-
 const stateToProps = state => ({
   item: state.item,
   map: state.map,
+  account: state.account,
 });
 
 const dispatchToProps = dispatch => ({
+  addItem: item => dispatch(actions.addItem(item)),
   locationChanged: location => dispatch(actions.locationChanged(location)),
 });
 

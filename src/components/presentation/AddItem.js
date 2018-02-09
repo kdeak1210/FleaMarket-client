@@ -1,9 +1,73 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
+import axios from 'axios';
+
+import { APIManager } from '../../utils';
 
 class AddItem extends Component {
   state = {
-    item: {},
+    name: '',
+    price: '',
+    image: '',
+  }
+
+  uploadImage = (files) => {
+    const file = files[0];
+
+    // Request an Amazon S3 signed url from the server
+    APIManager.get('/upload/s3sign', {
+      filename: file.name,
+      filetype: file.type,
+    })
+      .then((response) => {
+        console.log(response);
+        const { signedUrl } = response;
+
+        const options = {
+          headers: {
+            'Content-Type': file.type,
+          },
+        };
+
+        // Try uploading the file to the signedUrl we received from Amazon
+        return axios.put(signedUrl, file, options);
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          // url: "https://react-flea-market.s3.us-east-2.amazonaws.com/midtown.jpeg?Content-Type= ... etc
+          const { url } = response.config;
+          const imageUrl = url.substr(0, url.indexOf('?'));
+          console.log(imageUrl);
+
+          this.setState({ image: imageUrl });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  updateItem = (event) => {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  }
+
+  submitItem = () => {
+    const { currentUser } = this.props;
+    if (currentUser === null) {
+      alert('Please log in or register to add items');
+      return;
+    }
+    const newItem = { ...this.state };
+    newItem.seller = {
+      id: currentUser.id,
+      username: currentUser.username,
+      image: currentUser.image || '',
+      email: currentUser.email,
+    };
+
+    this.props.onSubmit(newItem);
+    this.setState({ name: '', price: '' });
   }
 
   render() {
@@ -16,6 +80,7 @@ class AddItem extends Component {
               type="text"
               name="name"
               className="form-control"
+              value={this.state.name}
               style={localStyle.nameField}
               placeholder="Item Name"
               onChange={this.updateItem}
@@ -25,16 +90,17 @@ class AddItem extends Component {
               name="price"
               className="form-control"
               style={localStyle.priceField}
+              value={this.state.price}
               placeholder="Price"
               onChange={this.updateItem}
             />
-            <small><i>No Image specified</i></small>
+            { (this.state.image)
+              ? <small><i>Uploaded your image to S3</i></small>
+              : <small><i>No Image specified</i></small>
+            }
+
             <hr />
             <div className="stats">
-              { (this.state.item.image)
-                ? <img style={{ width: 240 }} src={this.state.item.image} alt="item" />
-                : null
-              }
               <Dropzone
                 onDrop={this.uploadImage}
                 multiple={false}
@@ -62,11 +128,6 @@ const localStyle = {
   },
   priceField: {
     border: '1px solid #ddd',
-  },
-  textarea: {
-    border: '1px solid #ddd',
-    height: 160,
-    marginBottom: 16,
   },
 };
 
