@@ -5,7 +5,8 @@ import Promise from 'bluebird';
  * Get the host name from the environment when deploying
  *  (Server/ Client are split up for this project)
  */
-const host = 'http://localhost:8080';
+// const host = 'http://localhost:8080';
+const host = process.env.REACT_APP_SERVER_HOST_URL;
 
 // Export a series of functions to make HTTP requests
 export default {
