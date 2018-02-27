@@ -22,7 +22,8 @@ class SearchResults extends Component {
   getItems = () => {
     const { currentLocation } = this.props.map;
     if (!this.props.item.all) {
-      this.props.fetchItems(currentLocation);
+      this.props.fetchItems(currentLocation)
+      .catch(err => console.log(JSON.stringify(err)));
     }
   }
 

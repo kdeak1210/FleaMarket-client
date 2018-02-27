@@ -8,6 +8,10 @@ class OrderModal extends Component {
 
   onSubmitOrder = () => {
     const order = { ...this.state.order };
+    if (!order.message) {
+      alert('Please enter some message content!');
+      return;
+    }
     order.item = this.props.selectedItem;
     this.props.submitOrder(order);
   }

@@ -12,6 +12,11 @@ class AddItem extends Component {
   }
 
   uploadImage = (files) => {
+    if (this.props.currentUser === null) {
+      alert('Please log in or register to upload images');
+      return;
+    }
+
     const file = files[0];
 
     // Request an Amazon S3 signed url from the server

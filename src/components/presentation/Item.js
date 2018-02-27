@@ -55,11 +55,11 @@ const Item = ({
 
         <div className="footer">
           <hr />
-          <img
+          {/* <img
             src={seller.image}
             style={localStyle.avatar}
             alt="seller"
-          />
+          /> */}
           <div className="stats">
             {seller.username} {isMine ? '(you)' : ''}
           </div>

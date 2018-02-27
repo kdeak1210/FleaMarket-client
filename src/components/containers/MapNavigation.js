@@ -40,7 +40,7 @@ class MapNavigation extends Component {
 
   centerChanged = (newCenter) => {
     // console.log(`Center changed: ${JSON.stringify(newCenter)}`);
-    this.props.locationChanged(newCenter);
+    this.props.locationChanged(newCenter)
   }
 
   render() {

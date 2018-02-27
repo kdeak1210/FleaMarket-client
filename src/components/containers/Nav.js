@@ -63,7 +63,7 @@ class Nav extends Component {
               ) : (
                 <li>
                   <Link to="/auth">
-                    <button className="btn btn-lg btn-success">Login</button>
+                    <button className="btn btn-lg btn-success">Login / Sign Up</button>
                   </Link>
                 </li>
               )}
