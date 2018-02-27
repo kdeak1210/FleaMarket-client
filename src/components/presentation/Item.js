@@ -8,7 +8,7 @@ const Item = ({
   onRemove,
   isMine,
 }) => (
-  <div className="col-lg-3 col-sm-6">
+  <div className="col-xl-3 col-lg-4 col-sm-6">
     <div className="card" style={localStyle.card}>
       <div className="content">
         <div className="row">
