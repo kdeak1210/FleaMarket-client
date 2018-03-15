@@ -7,11 +7,17 @@ class OrderModal extends Component {
   }
 
   onSubmitOrder = () => {
+    if (this.props.currentUser === null) {
+      alert('You need to log in to send emails to sellers.');
+      return;
+    }
+
     const order = { ...this.state.order };
     if (!order.message) {
       alert('Please enter some message content!');
       return;
     }
+    
     order.item = this.props.selectedItem;
     this.props.submitOrder(order);
   }

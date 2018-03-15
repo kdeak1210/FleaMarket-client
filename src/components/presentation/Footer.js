@@ -16,7 +16,7 @@ const Footer = () => (
           </li>
           <li>
             <a
-              href="https://google.com"
+              href="https://kyledeak.com"
               target="_blank"
               rel="noopener noreferrer"
             >

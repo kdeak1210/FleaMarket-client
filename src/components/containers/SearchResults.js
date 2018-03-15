@@ -91,6 +91,7 @@ class SearchResults extends Component {
           onHide={this.toggleModal}
           selectedItem={this.state.selectedItem}
           submitOrder={this.submitOrder}
+          currentUser={currentUser}
         />
       </div>
     );
